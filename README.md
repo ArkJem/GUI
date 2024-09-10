@@ -3,7 +3,7 @@
 This is a simple project that demonstrates how to create a graphical user interface and use several libraries such as Tkinter or PyQt.
 
 # Tkinter
-Tkinter is a Python binding to the Tk GUI toolkit. It is the standard Python interface to the Tk GUI toolkit,[1] and is Python's de facto standard GUI. Tkinter is included with standard Linux, Microsoft Windows and macOS installs of Python.[wikipedia.org]
+Tkinter is a Python binding to the Tk GUI toolkit. It is the standard Python interface to the Tk GUI toolkit, and is Python's de facto standard GUI. Tkinter is included with standard Linux, Microsoft Windows and macOS installs of Python.[wikipedia.org]
 # PyQt
 PyQt is a Python binding of the cross-platform GUI toolkit Qt, implemented as a Python plug-in. PyQt is free software developed by the British firm Riverbank Computing. [wikipedia.org]
 # WxPython
