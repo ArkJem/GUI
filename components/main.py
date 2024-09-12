@@ -1,76 +1,106 @@
-from tkinter import ttk
-from tkinter import *
-from Calculator import eval_trig
+import tkinter as tk
+from tkinter import ttk, Menu
 
-def update_display(value):
-    current_text = display.get()
-    new_text = current_text + value
-    display.set(new_text)
+class CalculatorApp(tk.Tk):
+    def __init__(self):
+        super().__init__()
 
-root = Tk()
-content = ttk.Frame(root, padding=(3,3,12,12))
-frame = ttk.Frame(content, borderwidth=5, relief="ridge", width=200, height=100)
-root.option_add('*tearOff', FALSE)
+        self.title("Demo Kalkulatora")
+        self.geometry("600x400")
 
-# MENU
-menu = Menu(root)
-root.config(menu=menu)
+        # Create the main container (frame)
+        self.main_frame = ttk.Frame(self)
+        self.main_frame.pack(fill=tk.BOTH, expand=True)
 
-# File section
-filemenu = Menu(menu)
-menu.add_cascade(label='Plik', menu=filemenu)
-filemenu.add_command(label='Nowy')
-filemenu.add_command(label='Otwórz...')
-filemenu.add_separator()
-filemenu.add_command(label='Wyjście', command=root.quit)
+        # MENU (menu should be set on the root window, not on the frame)
+        menu = Menu(self)
+        self.config(menu=menu)
 
-# Help section
-helpmenu = Menu(menu)
-menu.add_cascade(label='Pomoc', menu=helpmenu)
-helpmenu.add_command(label='Informacje... ')
+        # File section
+        filemenu = Menu(menu, tearoff=0)
+        menu.add_cascade(label='Plik', menu=filemenu)
+        filemenu.add_command(label='Nowy')
+        filemenu.add_command(label='Otwórz...')
+        filemenu.add_separator()
+        filemenu.add_command(label='Wyjście', command=self.quit)  # Command to close the application
 
-root.title("test1")
-root.geometry("400x400")
+        # Help section
+        helpmenu = Menu(menu, tearoff=0)
+        menu.add_cascade(label='Pomoc', menu=helpmenu)
+        helpmenu.add_command(label='Informacje...')
 
-content.grid(column=0, row=0, sticky=(N, S, E, W))
+        # Create a menu toggle button
+        self.menu_toggle_button = tk.Button(self.main_frame, text="≡", command=self.toggle_menu)
+        self.menu_toggle_button.pack(side=tk.TOP,anchor='nw', padx=5, pady=5)
 
-display = StringVar()
-display.set("")
+        # Create the menu panel (left-side menu)
+        self.menu_frame = ttk.Frame(self.main_frame, width=150)
+        self.menu_frame.pack(side=tk.LEFT, fill=tk.Y)
 
-#Tworzy miejsce, gdzie bedzie mozna wpisywac dane
-a = Entry(content, textvariable=display, font=("Arial", 18), justify="right")
-a.grid(row=0, column=0, columnspan=5, padx=10, pady=10, sticky="n")  #sticky pozwala na umiejscowienie elementów w obszarze content
+        self.menu_buttons = ["ABC", "ABC2", "ABC3", "ABC4"]
+        for btn_text in self.menu_buttons:
+            btn = tk.Button(self.menu_frame, text=btn_text)
+            btn.pack(fill=tk.X, pady=2)
+
+        # Create the calculator area
+        self.calc_frame = ttk.Frame(self.main_frame)
+        self.calc_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+        self.create_calculator()
+
+        # Track menu visibility
+        self.menu_visible = True
+
+    def create_calculator(self):
+        # Create the display entry (for showing input and results)
+        self.display = tk.Entry(self.calc_frame, font=("Arial", 20), justify="right")
+        self.display.grid(row=0, column=0, columnspan=4, pady=10, sticky="nsew")
+
+        # Create calculator buttons
+        buttons = [
+            ('%', 1, 0), ('CE', 1, 1), ('C', 1, 2), ('<-', 1, 3),
+            ('7', 2, 0), ('8', 2, 1), ('9', 2, 2), ('/', 2, 3),
+            ('4', 3, 0), ('5', 3, 1), ('6', 3, 2), ('*', 3, 3),
+            ('1', 4, 0), ('2', 4, 1), ('3', 4, 2), ('-', 4, 3),
+            ('0', 5, 0), ('.', 5, 1), ('=', 5, 2), ('+', 5, 3)
+        ]
+
+        # Configure rows and columns
+        for row in range(6):
+            self.calc_frame.grid_rowconfigure(row, weight=1)
+        for col in range(4):
+            self.calc_frame.grid_columnconfigure(col, weight=1)
+
+        # Add buttons to the calculator layout
+        for (text, row, col) in buttons:
+            button = tk.Button(self.calc_frame, text=text, font=("Arial", 18), command=lambda t=text: self.on_button_click(t))
+            button.grid(row=row, column=col, sticky="nsew", padx=5, pady=5)
+
+    def toggle_menu(self):
+        """Toggles the visibility of the menu."""
+        if self.menu_visible:
+            self.menu_frame.pack_forget()  # Hide the menu
+        else:
+            self.menu_frame.pack(side=tk.LEFT, fill=tk.Y)  # Show the menu again
+        self.menu_visible = not self.menu_visible
+
+    def on_button_click(self, char):
+        """Handle button clicks for the calculator."""
+        if char == '=':
+            # Simplified evaluation logic
+            try:
+                result = str(eval(self.display.get()))
+                self.display.delete(0, tk.END)
+                self.display.insert(tk.END, result)
+            except:
+                self.display.delete(0, tk.END)
+                self.display.insert(tk.END, "Error")
+        elif char == 'C':
+            self.display.delete(0, tk.END)
+        else:
+            self.display.insert(tk.END, char)
 
 
-#columnconfigure i rowconfigure https://tkdocs.com/tutorial/grid.html
-root.columnconfigure(0, weight=1)
-root.rowconfigure(0, weight=1)
-content.columnconfigure(0, weight=1)
-content.columnconfigure(1, weight=1)
-content.columnconfigure(2, weight=1)
-content.rowconfigure(0, weight=1)
-
-row_val = 1
-col_val = 0
-
-button_labels = [
-    '7', '8', '9', '/',
-    '4', '5', '6', '*',
-    '1', '2', '3', '-',
-    '0', '.', '=', '+'
-]
-
-for label in button_labels:
-    if label == '=':
-        ttk.Button(content, text=label).grid(row=row_val, column=col_val, padx=10, pady=10, sticky="nsew")
-    elif label == 'C':
-        ttk.Button(content, text=label).grid(row=row_val, column=col_val, padx=10, pady=10, sticky="nsew")
-    else:
-        ttk.Button(content, text=label, command=lambda l=label: update_display(l)).grid(row=row_val, column=col_val, padx=10, pady=10, sticky="nsew")
-
-    col_val += 1
-    if col_val > 3:
-        col_val = 0
-        row_val += 1
-
-root.mainloop()
+if __name__ == "__main__":
+    app = CalculatorApp()
+    app.mainloop()
