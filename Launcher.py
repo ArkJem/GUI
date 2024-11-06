@@ -25,10 +25,10 @@ class Launcher(QWidget):
         self.setLayout(layout)
 
     def run_pyqt_calculator(self):
-        subprocess.Popen([sys.executable, "./components/mainPyQt.py"])
+        subprocess.Popen([sys.executable, "./controller/CalculatorControllerPy.py"])
 
     def run_tkinter_app(self):
-        subprocess.Popen([sys.executable, "./components/main.py"])
+        subprocess.Popen([sys.executable, "./controller/CalculatorControllerTk.py"])
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
