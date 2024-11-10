@@ -1,6 +1,11 @@
 import tkinter as tk
 from tkinter import ttk, Menu
+from tkinter.ttk import Style
+
+from components.functions import read_yaml
 from view.SettingsWindowTk import SettingsWindow
+
+
 
 class CalculatorViewTk(tk.Tk):
     def __init__(self):
@@ -9,7 +14,11 @@ class CalculatorViewTk(tk.Tk):
         self.title("MVC Calculator")
         self.geometry("600x400")
 
-        self.main_frame = ttk.Frame(self)
+        s = Style()
+        colorBackground = read_yaml("backgroundColor")
+        s.configure('My.TFrame', background=colorBackground)
+
+        self.main_frame = ttk.Frame(self,style='My.TFrame')
         self.main_frame.pack(fill=tk.BOTH, expand=True)
 
         self.create_menu()
@@ -17,12 +26,12 @@ class CalculatorViewTk(tk.Tk):
         self.menu_toggle_button = tk.Button(self.main_frame, text="≡", command=self.toggle_menu)
         self.menu_toggle_button.pack(side=tk.TOP, anchor='nw', padx=5, pady=5)
 
-        self.menu_frame = ttk.Frame(self.main_frame, width=150)
+        self.menu_frame = ttk.Frame(self.main_frame, width=150, style='My.TFrame')
         self.menu_frame.pack(side=tk.LEFT, fill=tk.Y)
 
         self.create_menu_buttons()
 
-        self.calc_frame = ttk.Frame(self.main_frame)
+        self.calc_frame = ttk.Frame(self.main_frame,style='My.TFrame')
         self.calc_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=10, pady=10)
 
         self.display = self.create_calculator_display()
@@ -52,7 +61,7 @@ class CalculatorViewTk(tk.Tk):
         SettingsWindow(self)
 
     def create_menu_buttons(self):
-        self.menu_buttons = ["ABC", "ABC2", "ABC3", "ABC4"]
+        self.menu_buttons = ["Standardowy", "Naukowy", "Programisty"]
         for btn_text in self.menu_buttons:
             btn = tk.Button(self.menu_frame, text=btn_text)
             btn.pack(fill=tk.X, pady=2)
