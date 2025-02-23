@@ -8,3 +8,7 @@ Tkinter is a Python binding to the Tk GUI toolkit. It is the standard Python int
 PyQt is a Python binding of the cross-platform GUI toolkit Qt, implemented as a Python plug-in. PyQt is free software developed by the British firm Riverbank Computing. [wikipedia.org]
 # WxPython
 wxPython is a wrapper for the cross-platform GUI API (often referred to as a "toolkit") wxWidgets (which is written in C++) for the Python programming language. It is one of the alternatives to Tkinter. It is implemented as a Python extension module (native code).[wikipedia.org]
+
+# How to run this App?
+To run this App, just launch file Launcher.py
+

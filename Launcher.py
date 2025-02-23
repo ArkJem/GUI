@@ -14,11 +14,11 @@ class Launcher(QWidget):
 
         layout = QVBoxLayout()
 
-        pyqt_button = QPushButton("Run PyQt Calculator")
+        pyqt_button = QPushButton("Uruchom aplikacje w PyQt...")
         pyqt_button.clicked.connect(self.run_pyqt_calculator)
         layout.addWidget(pyqt_button)
 
-        tkinter_button = QPushButton("Run Tkinter App")
+        tkinter_button = QPushButton("Uruchom aplikacje w Tkinterze...")
         tkinter_button.clicked.connect(self.run_tkinter_app)
         layout.addWidget(tkinter_button)
 

@@ -1,3 +1,8 @@
-backgroundColor: dark
-calculationPrecision: 3
+backgroundColor: '#ff5500'
+calculationPrecision: 10
 dateFormat: D-M-R G:M:S
+font: Arial
+fontColor: '#ff0080'
+fontFamily: Lato Light
+showDateInHistory: true
+soundFilePath: "C:/Users/jemio/Desktop/projekt in\u017Cynierski/GUI/sound_button.wav"
